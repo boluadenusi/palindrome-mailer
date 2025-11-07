@@ -7,6 +7,10 @@ from dotenv import load_dotenv
 import os
 import pytz
 from datetime import datetime
+from flask import Flask
+import threading
+
+app = Flask(__name__)
 
 
 def check_palindrome_time():
@@ -60,6 +64,16 @@ def send_email():
 
 schedule.every().minute.do(check_palindrome_time)
 
-while True:
-    schedule.run_pending()
-    time.sleep(1)
+def run_palindrome():
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
+
+threading.Thread(target=run_palindrome).start()
+
+@app.route("/")
+def home():
+    return "Palindrome mailer running!"
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=3000)
