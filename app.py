@@ -5,10 +5,13 @@ import time
 import schedule
 from dotenv import load_dotenv
 import os
+import pytz
+from datetime import datetime
 
 
 def check_palindrome_time():
-    curr_time = time.strftime("%H:%M", time.localtime())
+    tz = pytz.timezone('Africa/Lagos')
+    curr_time = datetime.now(tz).strftime("%H:%M")
     curr_time = curr_time.replace(":", "")
 
     curr_time = str(curr_time)
@@ -33,7 +36,7 @@ def send_email():
     subject = "Palindrome Time Alert!"
     body = f"""
         Hey there,
-        
+
         Welcome to THE REST OF YOUR LIFE!
         
         The current time {curr_time} is a palindrome!
